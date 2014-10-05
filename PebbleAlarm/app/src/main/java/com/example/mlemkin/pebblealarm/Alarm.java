@@ -21,19 +21,15 @@ public class Alarm {
     AlarmManager alarmManager;
     PendingIntent pendingIntent;
     PendingIntent pendingIntentWatch;
+    Ringtone ringtone;
 
 
-
-    public Alarm(final Main main){
-
+    public Alarm(Main main, Ringtone ringtone){
         broadcastReceiver = new BroadcastReceiver() {
+
             @Override
             public void onReceive(Context c, Intent i) {
 
-
-                Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                Ringtone ringtone = RingtoneManager.getRingtone(main.getApplicationContext(), notification);
-                ringtone.play();
             }
         };
 
@@ -70,6 +66,11 @@ public class Alarm {
         alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, calender.getTimeInMillis() - preAlarm, pendingIntentWatch);
 
         return new PendingIntent[]{pendingIntent, pendingIntentWatch};
+    }
+
+    public void play(){
+        ringtone.play();
+
     }
 
 

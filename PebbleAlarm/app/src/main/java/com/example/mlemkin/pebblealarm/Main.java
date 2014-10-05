@@ -49,12 +49,8 @@ public class Main extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        PebbleDictionary data = new PebbleDictionary();
-        data.addString(0, "balls");
-        PebbleKit.sendDataToPebble(getApplicationContext(), PEBBLE_APP_UUID, data);
+        PebbleKit.startAppOnPebble(getApplicationContext(), PEBBLE_APP_UUID);
 
-
-        boolean connected = PebbleKit.isWatchConnected(getApplicationContext());
 
         notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
         ringtone = RingtoneManager.getRingtone(getApplicationContext(), notification);
@@ -83,10 +79,6 @@ public class Main extends Activity {
                 main.hour = hourOfDay;
                 main.minute = minute;
 
-              System.out.println("test: "+hourOfDay +" : " + minute);
-
-
-
             }
         });
 
@@ -108,8 +100,9 @@ public class Main extends Activity {
                     BroadcastReceiver broadcastReceiverWatch = new  BroadcastReceiver() {
                         @Override
                         public void onReceive(Context c, Intent i) {
-                            //code to be sent to watch
-                            System.out.println("second");
+
+                            sendVib();
+
 
                         }
                     };
@@ -145,7 +138,7 @@ public class Main extends Activity {
                     BroadcastReceiver broadcastReceiverWatch = new  BroadcastReceiver() {
                         @Override
                         public void onReceive(Context c, Intent i) {
-                            //code to be sent to watch
+                            sendVib();
 
                         }
                     };
@@ -179,7 +172,7 @@ public class Main extends Activity {
                     BroadcastReceiver broadcastReceiverWatch = new  BroadcastReceiver() {
                         @Override
                         public void onReceive(Context c, Intent i) {
-                            //code to be sent to watch
+                            sendVib();
 
                         }
                     };
@@ -213,7 +206,7 @@ public class Main extends Activity {
                     BroadcastReceiver broadcastReceiverWatch = new  BroadcastReceiver() {
                         @Override
                         public void onReceive(Context c, Intent i) {
-                            //code to be sent to watch
+                            sendVib();
 
                         }
                     };
@@ -247,7 +240,7 @@ public class Main extends Activity {
                     BroadcastReceiver broadcastReceiverWatch = new  BroadcastReceiver() {
                         @Override
                         public void onReceive(Context c, Intent i) {
-                            //code to be sent to watch
+                            sendVib();
 
                         }
                     };
@@ -281,7 +274,7 @@ public class Main extends Activity {
                     BroadcastReceiver broadcastReceiverWatch = new  BroadcastReceiver() {
                         @Override
                         public void onReceive(Context c, Intent i) {
-                            //code to be sent to watch
+                            sendVib();
 
                         }
                     };
@@ -315,7 +308,7 @@ public class Main extends Activity {
                     BroadcastReceiver broadcastReceiverWatch = new  BroadcastReceiver() {
                         @Override
                         public void onReceive(Context c, Intent i) {
-                            //code to be sent to watch
+                            sendVib();
 
                         }
                     };
@@ -358,8 +351,20 @@ public class Main extends Activity {
      public void play(){
 
          ringtone.play();
-         System.out.println("balls");
 
+
+    }
+
+    public void sendVib(){
+        System.out.println("sent VIB");
+        PebbleDictionary data = new PebbleDictionary();
+        data.addString(0, "Vib");
+        PebbleKit.sendDataToPebble(getApplicationContext(), PEBBLE_APP_UUID, data);
+    }
+
+    public void killWatch(){
+
+        PebbleKit.closeAppOnPebble(getApplicationContext(), PEBBLE_APP_UUID);
     }
 
     public void setAlarm(int dayOfWeek, int hour, int minute, long preAlarm, PendingIntent pendingIntent,PendingIntent pendingIntentWatch  ){

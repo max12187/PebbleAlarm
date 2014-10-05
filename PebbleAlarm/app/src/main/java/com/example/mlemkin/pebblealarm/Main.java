@@ -39,12 +39,18 @@ public class Main extends Activity {
     int minute;
 
 
-    int PRE_ALARM = 1000;
+    int PRE_ALARM = 60000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+       /* PebbleKit.registerPebbleConnectedReceiver(getApplicationContext(), new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.i(getLocalClassName(), "Pebble connected!");
+            }
+        });
+        */
+        notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
         ringtone = RingtoneManager.getRingtone(getApplicationContext(), notification);
 
         super.onCreate(savedInstanceState);

@@ -17,8 +17,11 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TimePicker;
 import android.widget.Switch;
+import com.getpebble.android.kit.PebbleKit;
+import com.getpebble.android.kit.util.PebbleDictionary;
 
 import java.util.Calendar;
+import java.util.UUID;
 
 
 public class Main extends Activity {
@@ -41,15 +44,18 @@ public class Main extends Activity {
 
     int PRE_ALARM = 60000;
 
+    private final static UUID PEBBLE_APP_UUID = UUID.fromString("4c17b351-84f4-412c-b5e7-1ea3c86c9ead");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-       /* PebbleKit.registerPebbleConnectedReceiver(getApplicationContext(), new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                Log.i(getLocalClassName(), "Pebble connected!");
-            }
-        });
-        */
+
+        PebbleDictionary data = new PebbleDictionary();
+        data.addString(0, "balls");
+        PebbleKit.sendDataToPebble(getApplicationContext(), PEBBLE_APP_UUID, data);
+
+
+        boolean connected = PebbleKit.isWatchConnected(getApplicationContext());
+
         notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
         ringtone = RingtoneManager.getRingtone(getApplicationContext(), notification);
 

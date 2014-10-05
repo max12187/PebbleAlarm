@@ -8,6 +8,7 @@ import android.media.RingtoneManager;
 import android.media.Ringtone;
 import android.app.PendingIntent;
 import android.content.IntentFilter;
+import java.util.Calendar;
 
 /**
  * Created by mlemkin on 10/4/2014.
@@ -22,11 +23,14 @@ public class Alarm {
     PendingIntent pendingIntentWatch;
 
 
+
     public Alarm(final Main main){
 
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context c, Intent i) {
+
+
                 Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                 Ringtone ringtone = RingtoneManager.getRingtone(main.getApplicationContext(), notification);
                 ringtone.play();
@@ -51,9 +55,21 @@ public class Alarm {
 
     }
 
-    public void setAlarm(long alarmTime, long preAlarm ){
-        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, alarmTime, pendingIntent);
-        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, alarmTime - preAlarm, pendingIntentWatch);
+    public PendingIntent[] setAlarm(int dayOfWeek, int hour, int minute, int second, long preAlarm ){
+        Calendar calender = Calendar.getInstance();
+
+        calender.set(Calendar.DAY_OF_WEEK, dayOfWeek);
+        calender.set(Calendar.HOUR_OF_DAY, hour);
+        calender.set(Calendar.MINUTE, minute);
+        calender.set(Calendar.SECOND, second);
+
+
+
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, calender.getTimeInMillis(), pendingIntent);
+
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, calender.getTimeInMillis() - preAlarm, pendingIntentWatch);
+
+        return new PendingIntent[]{pendingIntent, pendingIntentWatch};
     }
 
 
